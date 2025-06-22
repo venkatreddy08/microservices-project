@@ -11,7 +11,11 @@ pipeline {
                 }
             }
         }
-        
+        stage('Trivy Scan') {
+            steps{
+                sh "trivy image venkatreddy08/adservice:latest"
+            }
+        }
         stage('Push Docker Image') {
             steps {
                 script {
