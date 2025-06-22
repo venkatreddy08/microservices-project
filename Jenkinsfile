@@ -8,18 +8,22 @@ pipeline {
                     dir('src') {
 
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t shaikmustafa/cartservice:latest ."
+                        sh "docker build -t venkatreddy08/cartservice:latest ."
                     }
                         }
                 }
             }
         }
-        
+        stage('Trivy Scan') {
+         steps{
+             sh "trivy image venkatreddy08/cartservice:latest"
+         }
+        }
         stage('Push Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push shaikmustafa/cartservice:latest "
+                        sh "docker push venkatreddy08/cartservice:latest "
                     }
                 }
             }
