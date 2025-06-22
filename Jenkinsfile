@@ -6,17 +6,21 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t shaikmustafa/emailservice:latest ."
+                        sh "docker build -t venkatreddy08/emailservice:latest ."
                     }
                 }
             }
         }
-        
+        stage('Trivy Scan') {
+         steps{
+             sh "trivy image venkatreddy08/emailservice:latest"
+         }
+        }
         stage('Push Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push shaikmustafa/emailservice:latest "
+                        sh "docker push venkatreddy08/emailservice:latest "
                     }
                 }
             }
